@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibes Tunes - Lecteur LoFi</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app-container" class="min-h-screen bg-background flex flex-col items-center">
+        <!-- Header -->
+        <header id="app-header" class="w-full flex flex-col items-center gap-4 pt-8 pb-6 px-4 sm:flex-row sm:justify-center sm:gap-8">
+            <h1 id="app-title" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+                Vibes <span class="text-glow-violet">tunes</span>
+            </h1>
+            <div id="search-container" class="relative w-full max-w-xs">
+                <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input id="search-input" type="text" placeholder="Rechercher un artiste ou un titre..." class="search-pill pl-10">
+            </div>
+        </header>
+
+        <!-- Main Player -->
+        <main id="player-section" class="flex flex-col items-center gap-6 py-6 px-4 w-full max-w-md">
+            <div id="album-cover-container" class="flex justify-center">
+                <img id="current-album-cover" src="https://via.placeholder.com/300/1e1e2f/ffffff?text=Chargement..." alt="Album cover" class="album-cover-main">
+            </div>
+
+            <div id="track-info" class="text-center">
+                <h2 id="track-title" class="text-xl font-bold text-foreground">Chargement...</h2>
+                <p id="track-artist" class="text-sm text-text-secondary mt-1">Veuillez patienter</p>
+            </div>
+
+            <!-- Audio Element -->
+            <audio id="audio-player" preload="metadata"></audio>
+
+            <!-- Progress Bar -->
+            <div id="progress-container" class="w-full flex flex-col gap-1">
+                <div id="progress-bar" class="progress-track">
+                    <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
+                </div>
+                <div class="flex justify-between text-xs text-text-secondary">
+                    <span id="time-current">0:00</span>
+                    <span id="time-total">0:00</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div id="controls-container" class="flex items-center gap-4">
+                <button id="btn-shuffle" class="control-btn" aria-label="Shuffle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 3 21 3 21 8"></polyline>
+                        <line x1="4" y1="20" x2="21" y2="3"></line>
+                        <polyline points="21 16 21 21 16 21"></polyline>
+                        <line x1="15" y1="15" x2="21" y2="21"></line>
+                        <line x1="4" y1="4" x2="9" y2="9"></line>
+                    </svg>
+                </button>
+                <button id="btn-play" class="play-btn" aria-label="Play">
+                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                </button>
+                <button id="btn-next" class="control-btn" aria-label="Next">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 4 15 12 5 20 5 4"></polygon>
+                        <line x1="19" y1="5" x2="19" y2="19"></line>
+                    </svg>
+                </button>
+                <button id="btn-prev" class="control-btn" aria-label="Previous">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="19 20 9 12 19 4 19 20"></polygon>
+                        <line x1="5" y1="19" x2="5" y2="5"></line>
+                    </svg>
+                </button>
+                <button id="btn-repeat" class="control-btn" aria-label="Repeat">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="17 1 21 5 17 9"></polyline>
+                        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                        <polyline points="7 23 3 19 7 15"></polyline>
+                        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                    </svg>
+                </button>
+                <button id="btn-like" class="control-btn" aria-label="Like">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </button>
+            </div>
+        </main>
+
+        <!-- Top Tracks -->
+        <section id="top-tracks-section" class="w-full max-w-2xl px-4 py-8">
+            <h3 id="top-tracks-title" class="text-lg font-bold text-foreground mb-4">Titres LoFi</h3>
+            <div id="top-tracks-scroll" class="flex gap-4 overflow-x-auto pb-4">
+                <div class="loading-message">Chargement des titres...</div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
